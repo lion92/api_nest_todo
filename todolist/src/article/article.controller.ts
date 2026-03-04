@@ -1,16 +1,25 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ArticleService } from './articleService';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post
+} from '@nestjs/common';
 
+import { ArticleService } from './articleService';
+import { CreateArticleDto } from '../article/dto/CreateArticleDto';
+import { UpdateArticleDto } from '../article/dto/UpdateArticleDto';
 @Controller('articles')
 export class ArticleController {
 
-  constructor(private readonly articleService: ArticleService) {
-  }
+  constructor(private readonly articleService: ArticleService) {}
 
   // CREATE
   @Post()
-  create(@Body() dto: { title: string, description: string }) {
-    return this.articleService.create(dto.title);
+  create(@Body() dto: CreateArticleDto) {
+    return this.articleService.create(dto);
   }
 
   // READ ALL
@@ -28,10 +37,10 @@ export class ArticleController {
   // UPDATE
   @Patch(':id')
   update(
-    @Param('id') id: string,
-    @Body() body: { title?: string; completed?: boolean },
+      @Param('id') id: string,
+      @Body() dto: UpdateArticleDto,
   ) {
-    return this.articleService.update(Number(id), body);
+    return this.articleService.update(Number(id), dto);
   }
 
   // DELETE

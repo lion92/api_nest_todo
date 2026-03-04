@@ -7,27 +7,32 @@ import { Article } from './Article.entity';
 export class ArticleService {
 
   constructor(
-    @InjectRepository(Article)
-    private articleRepository: Repository<Article>,
+      @InjectRepository(Article)
+      private articleRepository: Repository<Article>,
   ) {}
 
   // CREATE
-  async create(title: string) {
-    const article = this.articleRepository.create({ title });
+  async create(data: Partial<Article>) {
+    const article = this.articleRepository.create(data);
     return this.articleRepository.save(article);
   }
 
   // READ ALL
   findAll() {
-    return this.articleRepository.find();
+    return this.articleRepository.find({
+      relations: ['sections'],
+    });
   }
 
   // READ ONE
   async findOne(id: number) {
-    const article = await this.articleRepository.findOneBy({ id });
+    const article = await this.articleRepository.findOne({
+      where: { id },
+      relations: ['sections'],
+    });
 
     if (!article) {
-      throw new NotFoundException('Todo not found');
+      throw new NotFoundException('Article not found');
     }
 
     return article;
@@ -47,5 +52,4 @@ export class ArticleService {
     const article = await this.findOne(id);
     return this.articleRepository.remove(article);
   }
-
 }
