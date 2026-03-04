@@ -1,15 +1,31 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToMany
+} from "typeorm";
+import { Section } from "../section/Section.entity";
 
 @Entity()
 export class Article {
 
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  title: string;
+    @Column()
+    title: string;
 
-  @Column()
-  description: string;
+    @Column("text")
+    description: string;
 
+    @Column("text")
+    image: string;
+
+    @Column("text")
+    introduction: string;
+
+    @OneToMany(() => Section, (section) => section.article, {
+        cascade: true,
+    })
+    sections: Section[];
 }
