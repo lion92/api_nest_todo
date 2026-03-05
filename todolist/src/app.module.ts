@@ -7,7 +7,7 @@ import { ArticleModule } from './article/article.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database.sqlite',
+      database: process.env.DATABASE_PATH ?? 'database.sqlite',
       autoLoadEntities: true,
       synchronize: true,
     }),

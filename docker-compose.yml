@@ -1,0 +1,12 @@
+services:
+  api:
+    build:
+      context: ./todolist
+    ports:
+      - "3005:3005"
+    volumes:
+      - sqlite_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  sqlite_data:
