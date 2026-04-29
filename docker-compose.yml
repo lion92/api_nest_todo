@@ -3,7 +3,7 @@ services:
     build:
       context: ./todolist
     ports:
-      - "3005:3005"
+      - "127.0.0.1:3005:3005"
     volumes:
       - sqlite_data:/app/data
     restart: unless-stopped
